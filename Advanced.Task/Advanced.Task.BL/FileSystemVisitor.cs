@@ -54,7 +54,7 @@ namespace Advanced.Task.BL
                 {
                     OnFilterFileFinded(
                         new EventsProgressArgs("FilteredFileFinded: ") {File = file, FsContext = fscontext});
-                    if (fscontext.IsItemPassFilter(file.FullName, filterParam, filter))
+                    if (fscontext.IsItemPassFilter(file.Name, filterParam, filter))
                     {
                         yield return fscontext.CheckIsItemExcluded(file);
                     }
