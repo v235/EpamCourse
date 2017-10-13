@@ -12,7 +12,6 @@ namespace Advanced.Task
 {
     class Program
     {
-        static int i = 0;
         static void Main(string[] args)
         {
             Console.WriteLine("Enter search path");
@@ -66,10 +65,9 @@ namespace Advanced.Task
             //    //i++;
             //    //if (i == 5)
             //    //    e.FsContext.CancelSearch();
-            //    if (e.Dir.Name.Contains("images"))
-            //        e.FsContext.ExcludeItem();
-            //}
-        }
+            //if (e.Dir.Name.Contains("images"))
+            //    e.FsContext.ExcludeItem();
+    }
 
         private static void FsVisitor1_OnFilterFileFinded(object sender, EventsProgressArgs e)
         {
@@ -92,8 +90,8 @@ namespace Advanced.Task
             //    //i++;
             //    //if (i == 5)
             //    //    e.FsContext.CancelSearch();
-            //    if (e.Dir.FullName.Contains("external"))
-            //        e.FsContext.ExcludeItem();
+            if (e.Dir.FullName.Contains("external"))
+                e.FsContext.ExcludeItem();
             //}
         }
 

@@ -23,8 +23,7 @@ namespace Advanced.Task.BL
 
         public FileSystemVisitor(IRepository data)
         {
-            //path = @".";
-            path = @"D:\MyJS2";
+            path = @".";
             this.filter = (name, filter) => name.Contains(filter);
             this.data = data;
         }
