@@ -16,24 +16,18 @@ namespace Advanced.Task
         {
             Console.WriteLine("Enter search path");
             string path = Console.ReadLine();
-            BaseFileSystemVisitor fsVisitor;
-            if (string.IsNullOrEmpty(path))
-            {
-                fsVisitor = new BaseFileSystemVisitor();
-            }
-            else
-            {
-                fsVisitor = new BaseFileSystemVisitor(path, (name, filter) => name.Contains(filter));
-            }
-            fsVisitor.Searcher.OnStart += FsVisitor1_OnStart;
-            fsVisitor.Searcher.OnFinish += FsVisitor1_OnFinish;
-            fsVisitor.Searcher.OnFileFinded += FsVisitor1_OnFileFinded;
-            fsVisitor.Searcher.OnDirectoryFinded += FsVisitor1_OnDirectoryFinded;
-            fsVisitor.Searcher.FilterFileFinded += FsVisitor1_OnFilterFileFinded;
-            fsVisitor.Searcher.FilterFileFinded += FsVisitor_FilterFileFinded;
-            fsVisitor.Searcher.FilterDirectoryFinded += FsVisitor1_OnFilterDirectoryFinded;
+            FileSystemVisitor fsVisitor = string.IsNullOrEmpty(path)
+                ? BaseFileSystemVisitor.CreateSearcher()
+                : BaseFileSystemVisitor.CreateSearcher(path, (name, filter) => name.Contains(filter));
+            fsVisitor.OnStart += FsVisitor1_OnStart;
+            fsVisitor.OnFinish += FsVisitor1_OnFinish;
+            fsVisitor.OnFileFinded += FsVisitor1_OnFileFinded;
+            fsVisitor.OnDirectoryFinded += FsVisitor1_OnDirectoryFinded;
+            fsVisitor.FilterFileFinded += FsVisitor1_OnFilterFileFinded;
+            fsVisitor.FilterFileFinded += FsVisitor_FilterFileFinded;
+            fsVisitor.FilterDirectoryFinded += FsVisitor1_OnFilterDirectoryFinded;
 
-            foreach (var file in fsVisitor.Searcher.GetFiles("html"))
+            foreach (var file in fsVisitor.GetFiles("html"))
             {
                 if (file != null)
                 {
@@ -41,7 +35,7 @@ namespace Advanced.Task
                 }
             }
 
-            foreach (var dir in fsVisitor.Searcher.GetDirs())
+            foreach (var dir in fsVisitor.GetDirs())
             {
                 if (dir != null)
                 {
