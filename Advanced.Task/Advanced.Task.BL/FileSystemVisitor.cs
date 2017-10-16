@@ -17,8 +17,8 @@ namespace Advanced.Task.BL
         public event EventHandler<EventsProgressArgs> OnFinish=delegate {};
         public event EventHandler<EventsProgressArgs> OnFileFinded = delegate { };
         public event EventHandler<EventsProgressArgs> OnDirectoryFinded = delegate { };
-        public event EventHandler<EventsProgressArgs> FilterFileFinded = delegate { };
-        public event EventHandler<EventsProgressArgs> FilterDirectoryFinded = delegate { };
+        public event EventHandler<EventsProgressArgs> FilterFileFinded ;
+        public event EventHandler<EventsProgressArgs> FilterDirectoryFinded;
         //
 
         public FileSystemVisitor(IRepository data)
