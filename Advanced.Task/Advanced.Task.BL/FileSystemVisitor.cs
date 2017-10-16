@@ -97,7 +97,7 @@ namespace Advanced.Task.BL
         }
         protected virtual void OnFilterDirectoryFinded(EventsProgressArgs e)
         {
-            FilterFileFinded?.Invoke(this, e);
+            FilterDirectoryFinded?.Invoke(this, e);
         }
     }
 }

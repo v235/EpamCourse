@@ -35,7 +35,7 @@ namespace Advanced.Task
                 }
             }
 
-            foreach (var dir in fsVisitor.GetDirs())
+            foreach (var dir in fsVisitor.GetDirs("a"))
             {
                 if (dir != null)
                 {
@@ -59,9 +59,9 @@ namespace Advanced.Task
             //    //i++;
             //    //if (i == 5)
             //    //    e.FsContext.CancelSearch();
-            //if (e.Dir.Name.Contains("images"))
-            //    e.FsContext.ExcludeItem();
-    }
+            if (e.Dir.FullName.Contains("ex"))
+                e.FsContext.ExcludeItem();
+        }
 
         private static void FsVisitor1_OnFilterFileFinded(object sender, EventsProgressArgs e)
         {
@@ -84,8 +84,8 @@ namespace Advanced.Task
             //    //i++;
             //    //if (i == 5)
             //    //    e.FsContext.CancelSearch();
-            if (e.Dir.FullName.Contains("external"))
-                e.FsContext.ExcludeItem();
+            //if (e.Dir.FullName.Contains("external"))
+            //    e.FsContext.ExcludeItem();
             //}
         }
 
