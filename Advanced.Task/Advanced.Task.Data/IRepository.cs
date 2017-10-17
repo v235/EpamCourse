@@ -5,7 +5,7 @@ namespace Advanced.Task.Data
 {
     public interface IRepository
     {
-        IEnumerable<FileInfo> GetFiles(string path);
-        IEnumerable<DirectoryInfo> GetDirectorys(string path);
+        IEnumerable<FileInfo> GetFiles(string path, string filterParam);
+        IEnumerable<DirectoryInfo> GetDirectorys(string path, string filterParam);
     }
 }

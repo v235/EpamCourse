@@ -9,7 +9,7 @@ namespace Advanced.Task.BL
     public class FileSystemVisitor : IFileSystemVisitor
     {
         private readonly string path;
-        private readonly Func<string, string, bool> filter;
+        private readonly Func<string, bool> filter;
         private readonly IRepository data;
 
         // events
@@ -23,18 +23,17 @@ namespace Advanced.Task.BL
 
         public FileSystemVisitor(IRepository data)
         {
-            //path = @".";
-            path = @"D:\MyJS2";
-            this.filter = (name, filter) => name.Contains(filter);
+            path = @".";
+            this.filter = (name) => name.Length > 5;
             this.data = data;
         }
         public FileSystemVisitor(IRepository data, string path)
         {
             this.path = path;
-            this.filter = (name, filter) => name.Contains(filter);
+            this.filter = (name) => name.Length > 5;
             this.data = data;
         }
-        public FileSystemVisitor(IRepository data, string path, Func<string, string, bool> filter)
+        public FileSystemVisitor(IRepository data, string path, Func<string, bool> filter)
         {
             this.path = path;
             this.filter = filter;
@@ -45,25 +44,26 @@ namespace Advanced.Task.BL
         {
             OnStart(this, new EventsProgressArgs("Start file search"));
             FileSystemVisitorContext fscontext = new FileSystemVisitorContext();
-            foreach (var file in data.GetFiles(path))
-            {
-                OnFileFinded(this, new EventsProgressArgs("FileFinded: ") { File = file, FsContext = fscontext });
-                if (fscontext.IsCancel)
-                    yield break;
-                if (!string.IsNullOrEmpty(filterParam))
+                foreach (var file in data.GetFiles(path, filterParam))
                 {
-                    OnFilterFileFinded(
-                        new EventsProgressArgs("FilteredFileFinded: ") {File = file, FsContext = fscontext});
-                    if (fscontext.IsItemPassFilter(file.Name, filterParam, filter))
-                    {
-                        yield return fscontext.CheckIsItemExcluded(file);
-                    }
+
+                    OnFileFinded(this, new EventsProgressArgs("FileFinded: ") {File = file, FsContext = fscontext});
+                    if (fscontext.IsCancel)
+                        yield break;
+                        OnFilterFileFinded(
+                            new EventsProgressArgs("FilteredFileFinded: ") {File = file, FsContext = fscontext});
+                        if (fscontext.IsItemPassFilter(file.Name, filter))
+                        {
+                            if (fscontext.CheckIsItemExcluded(file.FullName))
+                            {
+                                yield return null;
+                            }
+                            else
+                            {
+                                yield return file;
+                            }
+                        }
                 }
-                else
-                {
-                    yield return fscontext.CheckIsItemExcluded(file);
-                }
-            }
             OnFinish(this, new EventsProgressArgs("Finish file search"));
         }
 
@@ -75,23 +75,23 @@ namespace Advanced.Task.BL
         {
             OnStart(this, new EventsProgressArgs("Start Dir search"));
             FileSystemVisitorContext fscontext = new FileSystemVisitorContext();
-            foreach (var dir in data.GetDirectorys(path))
+            foreach (var dir in data.GetDirectorys(path, filterParam))
             {
                 OnDirectoryFinded(this, new EventsProgressArgs("DirFinded: ") { Dir = dir, FsContext = fscontext });
-                if (!string.IsNullOrEmpty(filterParam))
-                {
                     OnFilterDirectoryFinded(new EventsProgressArgs("FilteredDirFinded: ") { Dir = dir, FsContext = fscontext });
                     if (fscontext.IsCancel)
                         yield break;
-                    if (fscontext.IsItemPassFilter( dir.FullName, filterParam, filter))
+                    if (fscontext.IsItemPassFilter( dir.FullName, filter))
                     {
-                        yield return fscontext.CheckIsItemExcluded(dir);
+                        if(fscontext.CheckIsItemExcluded(dir.FullName))
+                        {
+                            yield return null;
+                        }
+                        else
+                        {
+                            yield return dir;
+                        }
                     }
-                }
-                else
-                {
-                    yield return fscontext.CheckIsItemExcluded(dir);
-                }
             }
             OnFinish(this, new EventsProgressArgs("Finish Dir search"));
         }

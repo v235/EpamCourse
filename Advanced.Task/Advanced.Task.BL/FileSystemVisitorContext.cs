@@ -11,7 +11,7 @@ namespace Advanced.Task.BL
     public class FileSystemVisitorContext
     {
         internal bool IsCancel { get; private set; }
-        internal bool IsExcluded { get; private set; }
+        internal Dictionary<string,bool> ExcludedItem=new Dictionary<string, bool>();
 
 
         public void CancelSearch ()
@@ -19,24 +19,23 @@ namespace Advanced.Task.BL
             IsCancel = true;
         }
 
-        internal bool IsItemPassFilter(string name, string filterParam, Func<string, string, bool> filter)
+        internal bool IsItemPassFilter(string name, Func<string, bool> filter)
         {
-            return filter(name, filterParam);
+            return filter(name);
         }
 
-        public void ExcludeItem()
+        public void ExcludeItem(string fullName)
         {
-            IsExcluded= true;
+            ExcludedItem.Add(fullName,true);
         }
 
-        internal T CheckIsItemExcluded<T>(T item)
+        internal bool CheckIsItemExcluded(string fullName)
         {
-            if (IsExcluded)
-            {
-                IsExcluded = false;
-                return default(T);
-            }
-            return item;
+                if (ExcludedItem.ContainsKey(fullName))
+                {
+                    return ExcludedItem[fullName];
+                }
+            return false;
         }
 
     }

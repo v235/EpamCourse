@@ -6,7 +6,7 @@ namespace Advanced.Task.Data
 {
     public class Repository : IRepository
     {
-        public IEnumerable<DirectoryInfo> GetDirectorys(string path)
+        public IEnumerable<DirectoryInfo> GetDirectorys(string path, string filterParam = null)
         {
             Stack<string> dirs = new Stack<string>(20);
 
@@ -21,7 +21,14 @@ namespace Advanced.Task.Data
                 IEnumerable<string> subDirs;
                 try
                 {
-                    subDirs = Directory.GetDirectories(currentDir);
+                    if (!string.IsNullOrEmpty(filterParam))
+                    {
+                        subDirs = Directory.GetDirectories(currentDir, filterParam);
+                    }
+                    else
+                    {
+                        subDirs = Directory.GetDirectories(currentDir);
+                    }
                 }
                 catch (UnauthorizedAccessException e)
                 {
@@ -42,7 +49,7 @@ namespace Advanced.Task.Data
             }
         }
 
-        public IEnumerable<FileInfo> GetFiles(string path)
+        public IEnumerable<FileInfo> GetFiles(string path, string filterParam=null)
         {
             Stack<string> dirs = new Stack<string>(20);
 
@@ -57,7 +64,14 @@ namespace Advanced.Task.Data
                 string[] subDirs;
                 try
                 {
-                    subDirs = Directory.GetDirectories(currentDir);
+                    if (!string.IsNullOrEmpty(filterParam))
+                    {
+                        subDirs = Directory.GetDirectories(currentDir, filterParam);
+                    }
+                    else
+                    {
+                        subDirs = Directory.GetDirectories(currentDir);
+                    }
                 }
                 catch (UnauthorizedAccessException e)
                 {
@@ -73,7 +87,14 @@ namespace Advanced.Task.Data
                 IEnumerable<string> files;
                 try
                 {
-                    files = Directory.GetFiles(currentDir);
+                    if (!string.IsNullOrEmpty(filterParam))
+                    {
+                        files = Directory.GetFiles(currentDir, filterParam);
+                    }
+                    else
+                    {
+                        files = Directory.GetFiles(currentDir);
+                    }
                 }
 
                 catch (UnauthorizedAccessException e)

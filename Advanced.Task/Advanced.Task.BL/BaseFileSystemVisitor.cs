@@ -18,7 +18,7 @@ namespace Advanced.Task.BL
         {
             return new FileSystemVisitor(new Repository(), path);
         }
-        public static FileSystemVisitor CreateSearcher(string path, Func<string, string, bool> filter)
+        public static FileSystemVisitor CreateSearcher(string path, Func<string, bool> filter)
         {
             return new FileSystemVisitor(new Repository(), path, filter);
         }

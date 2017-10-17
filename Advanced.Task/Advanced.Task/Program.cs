@@ -18,7 +18,7 @@ namespace Advanced.Task
             string path = Console.ReadLine();
             FileSystemVisitor fsVisitor = string.IsNullOrEmpty(path)
                 ? BaseFileSystemVisitor.CreateSearcher()
-                : BaseFileSystemVisitor.CreateSearcher(path, (name, filter) => name.Contains(filter));
+                : BaseFileSystemVisitor.CreateSearcher(path, (name) => name.Length>10);
             fsVisitor.OnStart += FsVisitor1_OnStart;
             fsVisitor.OnFinish += FsVisitor1_OnFinish;
             fsVisitor.OnFileFinded += FsVisitor1_OnFileFinded;
@@ -27,7 +27,7 @@ namespace Advanced.Task
             fsVisitor.FilterFileFinded += FsVisitor_FilterFileFinded;
             fsVisitor.FilterDirectoryFinded += FsVisitor1_OnFilterDirectoryFinded;
 
-            foreach (var file in fsVisitor.GetFiles("html"))
+            foreach (var file in fsVisitor.GetFiles("*.*"))
             {
                 if (file != null)
                 {
@@ -35,7 +35,7 @@ namespace Advanced.Task
                 }
             }
 
-            foreach (var dir in fsVisitor.GetDirs("a"))
+            foreach (var dir in fsVisitor.GetDirs())
             {
                 if (dir != null)
                 {
@@ -60,7 +60,7 @@ namespace Advanced.Task
             //    //if (i == 5)
             //    //    e.FsContext.CancelSearch();
             if (e.Dir.FullName.Contains("ex"))
-                e.FsContext.ExcludeItem();
+                e.FsContext.ExcludeItem(e.Dir.FullName);
         }
 
         private static void FsVisitor1_OnFilterFileFinded(object sender, EventsProgressArgs e)
