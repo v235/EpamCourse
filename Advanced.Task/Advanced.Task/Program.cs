@@ -27,7 +27,7 @@ namespace Advanced.Task
             fsVisitor.FilterFileFinded += FsVisitor_FilterFileFinded;
             fsVisitor.FilterDirectoryFinded += FsVisitor1_OnFilterDirectoryFinded;
 
-            foreach (var file in fsVisitor.GetFiles("*.*"))
+            foreach (var file in fsVisitor.GetFiles("*.html"))
             {
                 if (file != null)
                 {
@@ -87,6 +87,12 @@ namespace Advanced.Task
             //if (e.Dir.FullName.Contains("external"))
             //    e.FsContext.ExcludeItem();
             //}
+            if (e.Dir.FullName.Contains("jquery"))
+                e.FsContext.ExcludeItem(e.Dir.FullName);
+            if (e.FsContext.ExcludedItems.ContainsKey(e.Dir.FullName))
+            {
+                e.FsContext.CancelSearch();
+            }
         }
 
         private static void FsVisitor1_OnFileFinded(object sender, EventsProgressArgs e)

@@ -23,14 +23,13 @@ namespace Advanced.Task.BL
 
         public FileSystemVisitor(IRepository data)
         {
-            path = @".";
-            this.filter = (name) => name.Length > 5;
+            //path = @".";
+            path = @"D:\MyJS2";
             this.data = data;
         }
         public FileSystemVisitor(IRepository data, string path)
         {
             this.path = path;
-            this.filter = (name) => name.Length > 5;
             this.data = data;
         }
         public FileSystemVisitor(IRepository data, string path, Func<string, bool> filter)
@@ -46,10 +45,14 @@ namespace Advanced.Task.BL
             FileSystemVisitorContext fscontext = new FileSystemVisitorContext();
                 foreach (var file in data.GetFiles(path, filterParam))
                 {
-
                     OnFileFinded(this, new EventsProgressArgs("FileFinded: ") {File = file, FsContext = fscontext});
                     if (fscontext.IsCancel)
+                    {
+                        OnFinish(this, new EventsProgressArgs("Finish file search"));
                         yield break;
+                    }
+                    if (filter != null)
+                    {
                         OnFilterFileFinded(
                             new EventsProgressArgs("FilteredFileFinded: ") {File = file, FsContext = fscontext});
                         if (fscontext.IsItemPassFilter(file.Name, filter))
@@ -63,6 +66,18 @@ namespace Advanced.Task.BL
                                 yield return file;
                             }
                         }
+                    }
+                    else
+                    {
+                        if (fscontext.CheckIsItemExcluded(file.FullName))
+                        {
+                            yield return null;
+                        }
+                        else
+                        {
+                            yield return file;
+                        }
+                    }
                 }
             OnFinish(this, new EventsProgressArgs("Finish file search"));
         }
@@ -78,12 +93,18 @@ namespace Advanced.Task.BL
             foreach (var dir in data.GetDirectorys(path, filterParam))
             {
                 OnDirectoryFinded(this, new EventsProgressArgs("DirFinded: ") { Dir = dir, FsContext = fscontext });
-                    OnFilterDirectoryFinded(new EventsProgressArgs("FilteredDirFinded: ") { Dir = dir, FsContext = fscontext });
-                    if (fscontext.IsCancel)
-                        yield break;
-                    if (fscontext.IsItemPassFilter( dir.FullName, filter))
+                if (fscontext.IsCancel)
+                {
+                    OnFinish(this, new EventsProgressArgs("Finish Dir search"));
+                    yield break;
+                }
+                if (filter != null)
+                {
+                    OnFilterDirectoryFinded(
+                        new EventsProgressArgs("FilteredDirFinded: ") {Dir = dir, FsContext = fscontext});
+                    if (fscontext.IsItemPassFilter(dir.FullName, filter))
                     {
-                        if(fscontext.CheckIsItemExcluded(dir.FullName))
+                        if (fscontext.CheckIsItemExcluded(dir.FullName))
                         {
                             yield return null;
                         }
@@ -92,6 +113,18 @@ namespace Advanced.Task.BL
                             yield return dir;
                         }
                     }
+                }
+                else
+                {
+                    if (fscontext.CheckIsItemExcluded(dir.FullName))
+                    {
+                        yield return null;
+                    }
+                    else
+                    {
+                        yield return dir;
+                    }
+                }
             }
             OnFinish(this, new EventsProgressArgs("Finish Dir search"));
         }
