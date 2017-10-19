@@ -46,7 +46,7 @@ namespace ExceptionHandling.Task.BL
             bool isNegative = false;
             int start = 0;
             if (string.IsNullOrEmpty(str))
-                throw new ArgumentException();
+                throw new ArgumentException("incorrect input data");
             if (str.Length > 1)
             {
                 Negative(str[0], ref isNegative, ref start);
@@ -56,7 +56,7 @@ namespace ExceptionHandling.Task.BL
             {
                 if (str[i] < '0' || str[i] > '9')
                 {
-                    throw new ArgumentException();
+                    throw new ArgumentException("incorrect input data");
                 }
                 result = checked(result * 10 + ConvertCharToInt(str[i]));
             }
