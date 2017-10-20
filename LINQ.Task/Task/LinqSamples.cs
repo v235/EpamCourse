@@ -302,41 +302,47 @@ namespace SampleQueries
 	                groupByYear = c.Orders.GroupBy(o => o.OrderDate.Year)
 	            })
 	            .Select(c => new
-	                {
-	                    statisticByMonthsList = c
-	                        .groupByMonth
-	                        .Select(o => new
-	                            {
-	                                customer = c.customer,
-	                                month = o.Key,
-	                                statisticActivityByMonth = o.Count()
-	                            }
-	                        ),
-	                    statisticByYearsList = c
-	                        .groupByYear
-	                        .Select(o => new
-	                            {
-	                                customer = c.customer,
-	                                year = o.Key,
-	                                statisticActivityByYear = o.Count()
-	                            }
-	                        ),
-	                    statisticByYearsAndMonthsList = c
-	                        .groupByYear
-	                        .Select(y => new
+	            {
+	                statisticByMonthsList = c
+	                    .groupByMonth
+	                    .Select(o => new
 	                        {
-	                            year = y.Key,
-                                monthgroup = y.Select(m => m.OrderDate)
-	                                .GroupBy(d => d.Month)
-	                                .Select(d => new
-	                                {
-	                                    customer = c.customer,
-	                                    month = d.Key,
-	                                    statisticActivityByYearAndMonth = d.Count()
-	                                })
-	                        })
-	                }
-	            );
+	                            customer = c.customer,
+	                            month = o.Key,
+	                            statisticActivityByMonth = o.Count()
+	                        }
+	                    ),
+	                statisticByYearsList = c
+	                    .groupByYear
+	                    .Select(o => new
+	                        {
+	                            customer = c.customer,
+	                            year = o.Key,
+	                            statisticActivityByYear = o.Count()
+	                        }
+	                    ),
+	                statisticByYearsAndMonthsList = c
+	                    .groupByYear
+	                    .Select(y => new
+	                    {
+	                        year = y.Key,
+	                        monthgroup = y.Select(m => m.OrderDate)
+	                            .GroupBy(d => d.Month)
+	                            .Select(d => new
+	                            {
+	                                customer = c.customer,
+	                                month = d.Key,
+	                                statisticActivityByYearAndMonth = d.Count()
+	                            })
+	                    })
+
+	            });
+	        foreach (var s in statisticList)
+	        {
+	            ObjectDumper.Write(s.statisticByMonthsList);
+	            ObjectDumper.Write(s.statisticByYearsList);
+                ObjectDumper.Write(s.statisticByYearsAndMonthsList);
+            }
 	    }
 	}
 }
