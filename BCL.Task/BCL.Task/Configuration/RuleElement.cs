@@ -4,25 +4,25 @@ namespace BCL.Task.Configuration
 {
     public class RuleElement : ConfigurationElement
     {
-        [ConfigurationProperty("filename", IsRequired = true)]
+        [ConfigurationProperty("FileName", IsRequired = true)]
         public string FileName
         {
-            get { return (string)base["filename"]; }
+            get { return (string)base["FileName"]; }
         }
-        [ConfigurationProperty("destdir", IsKey = true, IsRequired = true)]
+        [ConfigurationProperty("DestDir", IsKey = true, IsRequired = true)]
         public string DestDir
         {
-            get { return (string)base["destdir"]; }
+            get { return (string)base["DestDir"]; }
         }
-        [ConfigurationProperty("fileaddnumber")]
+        [ConfigurationProperty("FileAddNumber")]
         public bool FileAddNumber
         {
-            get { return (bool)base["fileaddnumber"]; }
+            get { return (bool)base["FileAddNumber"]; }
         }
-        [ConfigurationProperty("fileadddate")]
+        [ConfigurationProperty("FileAddDate")]
         public bool FileAddDate
         {
-            get { return (bool)base["fileadddate"]; }
+            get { return (bool)base["FileAddDate"]; }
         }
     }
 }
