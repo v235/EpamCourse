@@ -13,7 +13,8 @@ namespace MyIoC
 		{ }
 	}
 
-	public class CustomerBLL2
+	public class 
+        CustomerBLL2
 	{
 		[Import]
 		public ICustomerDAL CustomerDAL { get; set; }
