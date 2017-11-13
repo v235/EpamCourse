@@ -19,7 +19,7 @@ namespace ConsoleApp1
         {
             Loger.AddLog("All data:"+Repository.GetData());
             var result = Repository.GetData()[0];
-            Loger.AddLog("First word:"+result);
+            Loger.AddLog("First symbol:"+result);
         }
     }
 }

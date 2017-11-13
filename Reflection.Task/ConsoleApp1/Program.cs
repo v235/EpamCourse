@@ -14,30 +14,12 @@ namespace ConsoleApp1
             container.AddAssembly(Assembly.GetExecutingAssembly());
             container.AddType(typeof(Parser1));
             container.AddType(typeof(Loger));
-            container.AddType(typeof(Repository));
-            //container.AddType(typeof(Repository),typeof(IRepository));
-            var r=(Parser1)container.CreateInstance(typeof(Parser1));
-            r.parseData();
-            //var clasesImportConstructor = asm.GetTypes().Where(t => t.IsClass && t.GetCustomAttribute(typeof(ImportConstructorAttribute)) != null);
-            //var propertyPublicImport =
-            //    asm.GetTypes().Where(t =>
-            //        t.IsClass && t.IsPublic).Select(c => c.GetProperty("CustomerDAL"));
-            //    //.Select(p =>
-            //    //    p.GetProperties() GetCustomAttribute(typeof(ImportAttribute))!=null);
-            //foreach (var p in propertyPublicImport)
-            //{
-            //    //if (p != null)
-            //    //{
-            //    //    p.SetValue();
-            //    //}
-            //}
-            ////t.GetCustomAttribute(typeof(ImportAttribute))!=null)
-            ////.Select(c => c.GetProperties());         
-            ////object[] param = { new CustomerDAL(), new Logger() };
-            //foreach (var c in clasesImportConstructor)
-            //{
-            //    //var createInstance = Activator.CreateInstance(c, param);
-            //}
+            container.AddType(typeof(Repository),typeof(IRepository));
+            var r1 = (Parser1)container.CreateInstance(typeof(Parser1));
+            r1.parseData();
+            Console.WriteLine();
+            var r2=(Parser2)container.CreateInstance(typeof(Parser2));
+            r2.GetFirstWord();
             Console.ReadKey();
         }
     }

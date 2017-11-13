@@ -11,7 +11,7 @@ namespace ConsoleApp1
     class Container
     {
         private Assembly asm;
-        private List<Type> addTypes=new List<Type>();
+        private Dictionary<Type,Type> addTypes=new Dictionary<Type, Type>();
         private List<Object> paramToCreateInstance = new List<Object>();
         public void AddAssembly(Assembly asm)
         {
@@ -20,38 +20,43 @@ namespace ConsoleApp1
 
         public void AddType(Type type)
         {
-            addTypes.Add(type);
+            addTypes.Add(type,type);
         }
         public void AddType(Type type, Type typeConcrete)
         {
-            addTypes.Add(type);
+            addTypes.Add(typeConcrete, type);
         }
 
         public object CreateInstance(Type instance)
         {
+            var prop = instance.GetProperties();
+            if (prop.Length > 0)
+            {
+                var newnIstance = Activator.CreateInstance(instance);
+                foreach (var p in prop)
+                {
+                    if (addTypes[p.PropertyType] != null)
+                    {
+                        p.SetValue(newnIstance, Activator.CreateInstance(addTypes[p.PropertyType]), null);
+                    }
+                }
+                return newnIstance;
+            }
             foreach (var c in instance.GetConstructors())
             {
                 var param = c.GetParameters();
                 if (param.Length > 0)
                 {
-                    //Activator.CreateInstance(instance,param);
                     foreach (var p in param)
                     {
-                        var r = addTypes.FirstOrDefault(e => e == p.ParameterType);
-                        if (r != null)
+                        if (addTypes[p.ParameterType] != null)
                         {
-                            paramToCreateInstance.Add(Activator.CreateInstance(r));
+                            paramToCreateInstance.Add(Activator.CreateInstance(addTypes[p.ParameterType]));
                         }
                     }
                 }
             }
             return Activator.CreateInstance(instance, paramToCreateInstance.ToArray());
         }
-
-        //public Type CreateInstanceByProperty(Type instance)
-        //{
-        //    var result = instance;
-        //    return result;
-        //}
     }
 }

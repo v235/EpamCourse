@@ -18,7 +18,7 @@ namespace ConsoleApp1
         {
             
         }
-        public Parser1(Repository repository, Loger loger)
+        public Parser1(IRepository repository, Loger loger)
         {
             this.repository = repository;
             this.loger = loger;
@@ -27,6 +27,7 @@ namespace ConsoleApp1
         {
             loger.AddLog("Data before parse:" + repository.GetData());
             var result = repository.GetData().Split(new char[] {','});
+            Console.WriteLine("Separeted string:");
             foreach (var r in result)
             {
                 loger.AddLog(r);
