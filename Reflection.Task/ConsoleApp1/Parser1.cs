@@ -14,10 +14,6 @@ namespace ConsoleApp1
         private readonly IRepository repository;
         private readonly Loger loger;
 
-        public Parser1()
-        {
-            
-        }
         public Parser1(IRepository repository, Loger loger)
         {
             this.repository = repository;

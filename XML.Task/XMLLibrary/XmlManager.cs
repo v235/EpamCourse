@@ -27,30 +27,32 @@ namespace XMLLibrary
         public StringBuilder CreateXml(string nsString)
         {
             StringBuilder sb = new StringBuilder();
-            var xmlWriter = XmlWriter.Create(sb,
-                new XmlWriterSettings { Indent = true });
-            xmlWriter.WriteStartElement("library", nsString);
-            xmlWriter.WriteStartElement("books", nsString + "books");
-            foreach (var book in GetBooks())
+            using (XmlWriter xmlWriter = XmlWriter.Create(sb,
+                new XmlWriterSettings {Indent = true}))
             {
-                WriteBookToXml(XNamespace.Get(nsString + "books"), book).WriteTo(xmlWriter);
+                xmlWriter.WriteStartElement("library", nsString);
+                xmlWriter.WriteStartElement("books", nsString + "books");
+                foreach (var book in GetBooks())
+                {
+                    WriteBookToXml(XNamespace.Get(nsString + "books"), book).WriteTo(xmlWriter);
+                }
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("newspapers", nsString + "newspapers");
+                foreach (var newsPaper in GetNewsPapers())
+                {
+                    WriteNewsPaperToXml(XNamespace.Get(nsString + "newspapers"), newsPaper).WriteTo(xmlWriter);
+                }
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteStartElement("patents", nsString + "patents");
+                foreach (var patent in GetPatents())
+                {
+                    WritePatentToXml(XNamespace.Get(nsString + "patents"), patent).WriteTo(xmlWriter);
+                }
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndElement();
+                xmlWriter.Close();
+                return sb;
             }
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteStartElement("newspapers", nsString + "newspapers");
-            foreach (var newsPaper in GetNewsPapers())
-            {
-                WriteNewsPaperToXml(XNamespace.Get(nsString + "newspapers"),newsPaper).WriteTo(xmlWriter);
-            }
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteStartElement("patents", nsString + "patents");
-            foreach (var patent in GetPatents())
-            {
-                WritePatentToXml(XNamespace.Get(nsString + "patents"), patent).WriteTo(xmlWriter);
-            }
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
-            xmlWriter.Close();
-            return sb;
         }
 
         public IEnumerable<XElement> GetDataFromXML(StringBuilder xml, string elementName)
@@ -73,8 +75,16 @@ namespace XMLLibrary
                     }
                 }
             }
-
         }
+
+        //public void SaveDataToXml(StringBuilder sb)
+        //{
+        //    using (XmlWriter xmlWriter = XmlWriter.Create("test.xml",
+        //        new XmlWriterSettings {Indent = true}))
+        //    {
+        //        sb.AppendFormat()
+        //    }
+        //}
 
         private IEnumerable<Book> GetBooks()
         {

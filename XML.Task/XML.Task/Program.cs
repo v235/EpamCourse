@@ -23,7 +23,7 @@ namespace XML.Task
                 Console.WriteLine(el);
             }
             
-            //Console.WriteLine(xml);
+            Console.WriteLine(xml);
             Console.ReadKey();
         }
     }
