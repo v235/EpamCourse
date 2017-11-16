@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DAL\BooksRepository.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\NewspapersRepository.cs" />
     <Compile Include="DAL\PatentsRepository.cs" />
+    <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Book.cs" />
     <Compile Include="Entity\Newspaper.cs" />
     <Compile Include="Entity\Patent.cs" />

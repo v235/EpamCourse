@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Data.Entity
 {
-    public class Class1
+    public class BaseEntity
     {
+
+        public string Name { get; set; }
+        public string Comment { get; set; }
     }
 }

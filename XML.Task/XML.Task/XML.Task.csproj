@@ -49,6 +49,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{fb322288-91f8-474f-ba66-13d7af13db79}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XMLLibrary\XMLLibrary.csproj">
       <Project>{6b01f5f0-40e7-49f0-ba86-efb3291fc1a3}</Project>
       <Name>XMLLibrary</Name>

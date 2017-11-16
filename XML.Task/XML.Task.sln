@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLLibrary", "XMLLibrary\XM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{FB322288-91F8-474F-BA66-13D7AF13DB79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLTests", "XMLTests\XMLTests.csproj", "{24B0A302-3F68-4863-ADB2-1290A3119876}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FB322288-91F8-474F-BA66-13D7AF13DB79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB322288-91F8-474F-BA66-13D7AF13DB79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB322288-91F8-474F-BA66-13D7AF13DB79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24B0A302-3F68-4863-ADB2-1290A3119876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24B0A302-3F68-4863-ADB2-1290A3119876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24B0A302-3F68-4863-ADB2-1290A3119876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24B0A302-3F68-4863-ADB2-1290A3119876}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
