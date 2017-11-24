@@ -60,13 +60,21 @@
     <Folder Include="Scripts" />
     <Folder Include="Scripts\Z1" />
     <Folder Include="Scripts\Z2" />
-    <Folder Include="Scripts\Z3" />
+    <Folder Include="DB Version" />
+    <Folder Include="DB Version\Version 1.0" />
+    <Folder Include="DB Version\Version 1.1" />
+    <Folder Include="DB Version\Version 1.3" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Z1\Z1.1.sql" />
     <None Include="Scripts\Z2\Z2.2.sql" />
     <None Include="Scripts\Z2\Z2.3.sql" />
     <None Include="Scripts\Z2\Z2.4.sql" />
+    <None Include="DB Version\CheckDbExists.sql" />
+    <None Include="DB Version\deploy.sql" />
+    <None Include="DB Version\Version 1.0\CreateDBVersionTable.sql" />
+    <None Include="DB Version\CheckVersion.sql" />
+    <None Include="DB Version\Version 1.3\SetDBVersionTableV1.3.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Z1\Z1.2.sql" />
@@ -79,5 +87,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Z2\Z2.1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB Version\Version 1.0\Z3.DB.V1.0.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB Version\Version 1.1\Z3.DB.V1.1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB Version\Version 1.3\Z3.DB.V1.3.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB Version\Version 1.1\SetDBVersionTableV1.1.sql" />
   </ItemGroup>
 </Project>
