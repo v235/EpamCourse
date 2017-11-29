@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LinqToDB.Mapping;
 
 namespace ORM.Part1.Entity
@@ -9,14 +10,21 @@ namespace ORM.Part1.Entity
         [PrimaryKey, Identity]
         public int CategoryID { get; set; }
 
-        [Column(Name = "CategoryName"), NotNull]
+        [Column]
         public string CategoryName { get; set; }
 
-        [Column(Name = "Description")]
+        [Column]
         public string Description { get; set; }
 
-        [Column(Name = "Picture")]
-        public string Picture { get; set; }
+        [Column]
+        public byte[] Picture { get; set; }
+
+        public ICollection<Products> Products { get; set; }
+
+        public Categories()
+        {
+            Products = new List<Products>();
+        }
 
     }
 }

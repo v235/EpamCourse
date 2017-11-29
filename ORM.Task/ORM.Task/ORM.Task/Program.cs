@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ORM.Part1.Repositories;
+using Microsoft.JScript;
+using ORM.Part1;
+using ORM.Part1.DBContext;
 
 namespace ORM.Task
 {
@@ -11,12 +13,10 @@ namespace ORM.Task
     {
         static void Main(string[] args)
         {
-            CategoryRepository cr=new CategoryRepository("Northwind");
-            var res = cr.GetAllCategory();
-            foreach (var c in res)
-            {
-                Console.WriteLine(c.CategoryName);
-            }
+            //Z2 z2=new Z2();
+            //z2.RunZ2();
+            Z3 z3 = new Z3();
+            z3.RunZ3();
             Console.ReadKey();
         }
     }
