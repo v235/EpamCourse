@@ -25,5 +25,9 @@ namespace ORM.Part1.Entity
 
         [Column]
         public bool Discount { get; set; }
+
+        public virtual Orders Orders { get; set; }
+
+        public virtual Products Products { get; set; }
     }
 }

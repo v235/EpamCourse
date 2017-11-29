@@ -90,26 +90,26 @@ namespace ORM.Part1
             //    db.Insert(p2);
             //}
             //Console.WriteLine("Success");
-            //Z3.4
+            //Z3.4 TODO
             //Console.WriteLine("Z3.4");
             using (var db = new DbNorthwind())
             {
                 var q1 = db.OrderDetails.
-                    GroupJoin(db.Orders.Where(o => o.ShippedDate == null).Select(c => c), p=>p.OrderID, k=>k.OrderID,(pk, kp)=>new OrderDetails()
+                    GroupJoin(db.Orders.Where(o => o.ShippedDate == null).Select(c => c), p => p.OrderID, k => k.OrderID, (pk, kp) => new OrderDetails()
                     {
-                        ProductID= pk.ProductID,
-                        OrderID =pk.OrderID,
+                        ProductID = pk.ProductID,
+                        OrderID = pk.OrderID,
                         Quantity = pk.Quantity,
                         UnitPrice = pk.UnitPrice,
                         Discount = pk.Discount
                     });
-                var res1 = q1.ToList();
-                var query = from o in db.Orders
-                    where o.ShippedDate == null
-                    from od in db.OrderDetails.InnerJoin(ood => ood.OrderID == o.OrderID && o.OrderID == 11077)
-                    select new {od.ProductID, od.OrderID, o.ShippedDate, order = o.OrderID};
-                var res = query.ToList();
-                Random rnd = new Random();
+                //var res1 = q1.ToList();
+                //var query = from o in db.Orders
+                //            where o.ShippedDate == null
+                //            from od in db.OrderDetails.InnerJoin(ood => ood.OrderID == o.OrderID && o.OrderID == 11077)
+                //            select new { od.ProductID, od.OrderID, o.ShippedDate, order = o.OrderID };
+                //var res = query.ToList();
+                //Random rnd = new Random();
                 //foreach (var o in query)
                 //{
                 //    using (var db1 = new DbNorthwind())

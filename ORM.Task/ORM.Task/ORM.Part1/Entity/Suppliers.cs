@@ -48,9 +48,5 @@ namespace ORM.Part1.Entity
 
         public IEnumerable<Products> Products { get; set; }
 
-        public Suppliers()
-        {
-            Products=new List<Products>();
-        }
     }
 }

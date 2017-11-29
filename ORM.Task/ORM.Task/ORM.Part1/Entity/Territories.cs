@@ -18,5 +18,7 @@ namespace ORM.Part1.Entity
 
         [Column]
         public int RegionID { get; set; }
+
+        public virtual ICollection<Employees> Employees { get; set; }
     }
 }

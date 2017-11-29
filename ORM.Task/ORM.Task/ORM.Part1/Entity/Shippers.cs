@@ -21,10 +21,5 @@ namespace ORM.Part1.Entity
 
         public ICollection<Orders> Orders { get; set; }
 
-        public Shippers()
-        {
-            Orders=new List<Orders>();
-        }
-
     }
 }

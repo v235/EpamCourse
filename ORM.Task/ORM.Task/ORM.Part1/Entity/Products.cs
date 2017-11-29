@@ -46,5 +46,7 @@ namespace ORM.Part1.Entity
         [Column]
         public bool Discontinued { get; set; }
 
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+
     }
 }

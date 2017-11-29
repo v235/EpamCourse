@@ -43,10 +43,5 @@ namespace ORM.Part1.Entity
 
         public ICollection<Orders> Orders { get; set; }
 
-        public Customers()
-        {
-            Orders=new List<Orders>();
-        }
-
     }
 }

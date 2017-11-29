@@ -21,10 +21,5 @@ namespace ORM.Part1.Entity
 
         public ICollection<Products> Products { get; set; }
 
-        public Categories()
-        {
-            Products = new List<Products>();
-        }
-
     }
 }

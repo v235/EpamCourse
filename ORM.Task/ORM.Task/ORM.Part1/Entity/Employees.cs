@@ -66,10 +66,9 @@ namespace ORM.Part1.Entity
 
         public ICollection<Orders> Orders { get; set; }
 
-        public Employees()
-        {
-            Orders=new List<Orders>();
-        }
+        public virtual ICollection<Employees> Employee { get; set; }
+
+        public virtual Employees Employee1 { get; set; }
 
     }
 }

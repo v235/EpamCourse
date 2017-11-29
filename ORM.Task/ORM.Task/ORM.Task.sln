@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM.Task", "ORM.Task\ORM.Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM.Part1", "ORM.Part1\ORM.Part1.csproj", "{3DA9BBA6-9C47-49E5-BAD8-F543933B18FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM.Part2", "ORM.Part2\ORM.Part2.csproj", "{A6E8DCB2-FBC1-46C7-B76F-886E69C8FE71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3DA9BBA6-9C47-49E5-BAD8-F543933B18FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DA9BBA6-9C47-49E5-BAD8-F543933B18FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DA9BBA6-9C47-49E5-BAD8-F543933B18FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6E8DCB2-FBC1-46C7-B76F-886E69C8FE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E8DCB2-FBC1-46C7-B76F-886E69C8FE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E8DCB2-FBC1-46C7-B76F-886E69C8FE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E8DCB2-FBC1-46C7-B76F-886E69C8FE71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

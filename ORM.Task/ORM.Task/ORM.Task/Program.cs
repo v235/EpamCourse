@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.JScript;
 using ORM.Part1;
 using ORM.Part1.DBContext;
+using ORM.Part2;
 
 namespace ORM.Task
 {
@@ -15,8 +16,10 @@ namespace ORM.Task
         {
             //Z2 z2=new Z2();
             //z2.RunZ2();
-            Z3 z3 = new Z3();
-            z3.RunZ3();
+            //Z3 z3 = new Z3();
+            //z3.RunZ3();
+            Part2Zadanie p2z1=new Part2Zadanie();
+            p2z1.RunZ3();
             Console.ReadKey();
         }
     }

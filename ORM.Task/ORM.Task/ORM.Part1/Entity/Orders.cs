@@ -61,5 +61,6 @@ namespace ORM.Part1.Entity
         [Column]
         public string ShipCountry { get; set; }
 
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }
