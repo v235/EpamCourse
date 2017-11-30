@@ -16,19 +16,11 @@ namespace ORM.Part1
             Console.WriteLine("Z2.1");
             using (var db = new DbNorthwind())
             {
-                var query = from c in db.Categories
-                            from p in db.Products.InnerJoin(pc => pc.CategoryID == c.CategoryID)
-                            join s in db.Suppliers on p.SupplierID equals s.SupplierID
-                            select new
-                            {
-                                ProductID = p.ProductID,
-                                ProductName = p.ProductName,
-                                CategoryName = c.CategoryName,
-                                SuppliersName = s.ContactName
-                            };
+                var query = db.Products.LoadWith(c => c.Categories).LoadWith(s => s.Suppliers).Select(p =>
+                    new { p.ProductID, p.ProductName, p.Categories.CategoryName, p.Suppliers.ContactName });
                 foreach (var p in query)
                 {
-                    Console.WriteLine("{0}|{1}|{2}|{3}", p.ProductID, p.ProductName, p.CategoryName, p.SuppliersName);
+                    Console.WriteLine("{0}|{1}|{2}|{3}", p.ProductID, p.ProductName, p.CategoryName, p.ContactName);
                 }
             }
             //Z2.2
@@ -36,7 +28,7 @@ namespace ORM.Part1
             using (var db = new DbNorthwind())
             {
                 var query = db.Employees.Select(e =>
-                    new { EmployeeID = e.EmployeeID, EmployeeName = e.FirstName + e.LastName, Region = e.Region });
+                    new { e.EmployeeID, EmployeeName = e.FirstName + e.LastName, e.Region });
                 foreach (var e in query)
                 {
                     Console.WriteLine("{0}|{1}|{2}", e.EmployeeID, e.EmployeeName, e.Region);
@@ -57,21 +49,17 @@ namespace ORM.Part1
             Console.WriteLine("Z2.4");
             using (var db = new DbNorthwind())
             {
-                var query = from e in db.Employees
-                            from o in db.Orders.InnerJoin(eo => eo.EmployeeID == e.EmployeeID)
-                            join s in db.Shippers on o.ShipVia equals s.ShipperID
-                            group e.EmployeeID by new { e.FirstName, e.LastName, s.CompanyName }
-                    into g
-                            select new
-                            {
-                                EmployeeName = g.Key.FirstName + g.Key.LastName,
-                                CompanyName = g.Key.CompanyName,
-                                Count = g.Count()
-                            };
-
-                foreach (var e in query)
+                var q = db.Orders.LoadWith(e => e.Employees).LoadWith(s => s.Shippers).GroupBy(g =>
+                    new
+                    {
+                        g.EmployeeID,
+                        g.Employees.FirstName,
+                        g.Employees.LastName,
+                        g.Shippers.CompanyName
+                    }).OrderBy(r => r.Key.FirstName);
+                foreach (var e in q)
                 {
-                    Console.WriteLine("{0}|{1}|{2}", e.EmployeeName, e.CompanyName, e.Count);
+                    Console.WriteLine("{0}|{1}|{2}", e.Key.FirstName + " " + e.Key.LastName, e.Key.CompanyName, e.Count());
                 }
             }
         }

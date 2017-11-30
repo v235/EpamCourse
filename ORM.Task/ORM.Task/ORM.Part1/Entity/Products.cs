@@ -46,6 +46,7 @@ namespace ORM.Part1.Entity
         [Column]
         public bool Discontinued { get; set; }
 
+        [Association(ThisKey = "ProductID", OtherKey = "ProductID")]
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 
     }

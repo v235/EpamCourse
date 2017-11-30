@@ -61,6 +61,7 @@ namespace ORM.Part1.Entity
         [Column]
         public string ShipCountry { get; set; }
 
+        [Association(ThisKey = "OrderID", OtherKey = "OrderID")]
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

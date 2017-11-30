@@ -19,6 +19,7 @@ namespace ORM.Part1.Entity
         [Column]
         public int RegionID { get; set; }
 
+        [Association(ThisKey = "EmployeeID", OtherKey = "EmployeeID")]
         public virtual ICollection<Employees> Employees { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace ORM.Part2.Migrations
                 new Category() {CategoryID = 2, CategoryName = "testCat2"});
 
             context.Regions.AddOrUpdate(
-                new Regions() {RegionID = 5, RegionDescription = "TestReg"},
+                new Regions() {RegionID = 1, RegionDescription = "TestReg"},
                 new Regions() {RegionID = 2, RegionDescription = "TestReg2"});
 
             context.Territories.AddOrUpdate(

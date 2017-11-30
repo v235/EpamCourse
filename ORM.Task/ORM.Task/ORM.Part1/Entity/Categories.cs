@@ -19,6 +19,7 @@ namespace ORM.Part1.Entity
         [Column]
         public byte[] Picture { get; set; }
 
+        [Association(ThisKey = "ProductID", OtherKey = "ProductID")]
         public ICollection<Products> Products { get; set; }
 
     }

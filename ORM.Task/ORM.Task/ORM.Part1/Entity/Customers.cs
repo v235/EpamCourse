@@ -41,6 +41,7 @@ namespace ORM.Part1.Entity
         [Column]
         public string Fax { get; set; }
 
+        [Association(ThisKey = "OrderID", OtherKey = "OrderID")]
         public ICollection<Orders> Orders { get; set; }
 
     }

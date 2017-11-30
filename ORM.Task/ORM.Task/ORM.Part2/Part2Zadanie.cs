@@ -24,6 +24,7 @@ namespace ORM.Part2
             using (var db = new NorthwindDB())
             {
                 db.Database.Initialize(false);
+                Console.WriteLine("DataBase was created");
             }
         }
     }

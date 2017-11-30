@@ -58,16 +58,19 @@ namespace ORM.Part1.Entity
         [Column]
         public string Notes { get; set; }
 
-        [Column, Association(ThisKey = "EmployeeID", OtherKey = "EmployeeID")]
+        [Column]
         public int ReportsTo { get; set; }
 
         [Column]
         public string PhotoPath { get; set; }
 
+        [Association(ThisKey = "OrderID", OtherKey = "OrderID")]
         public ICollection<Orders> Orders { get; set; }
 
+        [Association(ThisKey = "EmployeeID", OtherKey = "EmployeeID")]
         public virtual ICollection<Employees> Employee { get; set; }
 
+        [Association(ThisKey = "EmployeeID", OtherKey = "EmployeeID")]
         public virtual Employees Employee1 { get; set; }
 
     }

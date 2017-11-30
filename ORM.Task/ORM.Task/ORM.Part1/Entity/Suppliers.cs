@@ -46,6 +46,7 @@ namespace ORM.Part1.Entity
         [Column]
         public string HomePage { get; set; }
 
+        [Association(ThisKey = "ProductID", OtherKey = "ProductID")]
         public IEnumerable<Products> Products { get; set; }
 
     }

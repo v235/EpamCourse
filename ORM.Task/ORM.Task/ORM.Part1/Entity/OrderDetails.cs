@@ -11,10 +11,10 @@ namespace ORM.Part1.Entity
     [Table (Name = "Order Details")]
     public class OrderDetails
     {
-        [PrimaryKey]
+        [Column(Name = "OrderID", IsPrimaryKey = true)]
         public int OrderID { get; set; }
 
-        [PrimaryKey]
+        [Column(Name = "ProductID", IsPrimaryKey = true)]
         public int ProductID { get; set; }
 
         [Column]
@@ -26,8 +26,10 @@ namespace ORM.Part1.Entity
         [Column]
         public bool Discount { get; set; }
 
+        [Association(ThisKey = "OrderID", OtherKey = "OrderID")]
         public virtual Orders Orders { get; set; }
 
+        [Association(ThisKey = "ProductID", OtherKey = "ProductID")]
         public virtual Products Products { get; set; }
     }
 }
