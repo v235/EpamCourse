@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleApp1.DAL;
 using ConsoleApp1.Logger;
+using MyCustomIoC;
 
 namespace ConsoleApp1
 {

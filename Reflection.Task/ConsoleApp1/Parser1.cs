@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleApp1.DAL;
 using ConsoleApp1.Logger;
+using MyCustomIoC;
 
 namespace ConsoleApp1
 {
-    [ImportConstructor]
     class Parser1
     {
         private readonly IRepository repository;
         private readonly Loger loger;
 
+        //For Test
+        //public Parser1()
+        //{
+        //    repository=new Repository();
+        //    loger = new Loger();
+        //}
         public Parser1(IRepository repository, Loger loger)
         {
             this.repository = repository;
