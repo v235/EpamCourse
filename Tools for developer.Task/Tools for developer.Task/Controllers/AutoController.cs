@@ -9,7 +9,7 @@ namespace Tools_for_developer.Task.Controllers
     [Authorize]
     public class AutoController : Controller
     {
-        // GET: Auto
+        [Authorize]
         public ActionResult Index()
         {
             return View();

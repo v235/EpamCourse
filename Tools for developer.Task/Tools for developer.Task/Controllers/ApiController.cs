@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace Tools_for_developer.Task.Controllers
 {
-    public class ApiController : ApiController
+    public class piController : ApiController
     {
     }
 }

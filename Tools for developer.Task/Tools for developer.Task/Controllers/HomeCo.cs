@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace Tools_for_developer.Task.Controllers
 {
+    [Authorize]
     public class HomeCo : Controller
     {
-        public ActionResult Index()
+        private ActionResult Index()
         {
             return View();
         }
@@ -19,7 +20,7 @@ namespace Tools_for_developer.Task.Controllers
 
             return View();
         }
-
+        [Authorize]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
