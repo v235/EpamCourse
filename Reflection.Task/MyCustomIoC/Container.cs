@@ -76,8 +76,6 @@ namespace MyCustomIoC
 
         private object CreateInstanceByConstructor(Type instanceType)
         {
-            try
-            {
                 foreach (var c in instanceType.GetConstructors())
                 {
                     var param = c.GetParameters();
@@ -90,6 +88,10 @@ namespace MyCustomIoC
                             {
                                 paramToCreateInstance.Add(Activator.CreateInstance(registryTypes[p.ParameterType]));
                             }
+                            else
+                            {
+                            throw new IoCException("this parametr is not registred");
+                            }
                         }
                     }
                 }
@@ -100,15 +102,6 @@ namespace MyCustomIoC
                     return CreateInstanceByProperty(instanceType, prop);
                 }
                 return Activator.CreateInstance(instanceType, paramToCreateInstance.ToArray());
-            }
-            catch (System.MissingMethodException)
-            {
-                throw new IOException("No parameters constructor");
-            }
-            catch (Exception)
-            {
-                throw new IOException();
-            }
         }
     }
 }

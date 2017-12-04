@@ -16,6 +16,8 @@ namespace ConsoleApp1
             var r = js.ParseJson(json);
             var r1 = js.GetFirstElement(json);
             var r2 = js.FindElementByKey(json,"Medium");
+            Console.WriteLine("{0},{1}", r1, r2);
+            Console.ReadKey();
         }
 
     }
