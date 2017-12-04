@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MyCustomIoC
 {
-    public class InvalidCostructorArgumentException:Exception
+    public class DependencyNotRegistered:Exception
     {
-        public InvalidCostructorArgumentException() : base("Some exeption")
+        public DependencyNotRegistered() : base("Some exeption")
         {
             
         }
-        public InvalidCostructorArgumentException(string message):base(message)
+        public DependencyNotRegistered(string message):base(message)
         {
             
         }

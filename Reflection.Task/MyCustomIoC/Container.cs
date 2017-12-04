@@ -56,8 +56,6 @@ namespace MyCustomIoC
 
         private object CreateInstanceByProperty(Type instanceType, IEnumerable<PropertyInfo> prop)
         {
-            try
-            {
             var newnIstance = Activator.CreateInstance(instanceType);
             foreach (var p in prop)
             {
@@ -65,13 +63,12 @@ namespace MyCustomIoC
                 {
                     p.SetValue(newnIstance, Activator.CreateInstance(registryTypes[p.PropertyType]), null);
                 }
+                else
+                {
+                    throw new DependencyNotRegistered(p.PropertyType.Name + " - property is not registred");
+                }
             }
             return newnIstance;
-        }
-        catch (System.MissingMethodException)
-            {
-                throw new IOException("Not all types are registry");
-            }
         }
 
         private object CreateInstanceByConstructor(Type instanceType)
@@ -90,7 +87,7 @@ namespace MyCustomIoC
                             }
                             else
                             {
-                            throw new InvalidCostructorArgumentException(p.ParameterType.Name +" - parametr is not registred");
+                            throw new DependencyNotRegistered(p.ParameterType.Name +" - parametr is not registred");
                             }
                         }
                     }
