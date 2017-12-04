@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MyCustomIoC
 {
-    public class IoCException:Exception
+    public class InvalidCostructorArgumentException:Exception
     {
-        public IoCException() : base("Some exeption")
+        public InvalidCostructorArgumentException() : base("Some exeption")
         {
             
         }
-        public IoCException(string message):base(message)
+        public InvalidCostructorArgumentException(string message):base(message)
         {
             
         }

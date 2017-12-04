@@ -90,7 +90,7 @@ namespace MyCustomIoC
                             }
                             else
                             {
-                            throw new IoCException(p.ParameterType.Name +" - parametr is not registred");
+                            throw new InvalidCostructorArgumentException(p.ParameterType.Name +" - parametr is not registred");
                             }
                         }
                     }
