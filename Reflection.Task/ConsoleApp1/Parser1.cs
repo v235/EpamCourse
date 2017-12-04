@@ -20,7 +20,7 @@ namespace ConsoleApp1
         //    repository=new Repository();
         //    loger = new Loger();
         //}
-        public Parser1(IRepository repository, Loger loger)
+        public Parser1(IRepository repository, Loger loger, Test test)
         {
             this.repository = repository;
             this.loger = loger;
