@@ -23,11 +23,11 @@ namespace XML.Task
 
             //read XML
             FileStream fs2 = new FileStream("library.xml", FileMode.Open);
-            var res = manager.ReadXMLFile(fs2).Where(e => e.GetType() == typeof(Patent));
+            var res = manager.ReadXMLFile(fs2).OfType<Patent>(); //.Where(e => e.GetType() == typeof(Patent));
             foreach (var r in res)
             {
-                var r1 = (Patent)r;
-                Console.WriteLine(r1.RequestDate);
+                //var r1 = (Patent)r;
+                Console.WriteLine(r.RequestDate);
             }
             fs2.Close();
             Console.ReadKey();

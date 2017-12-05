@@ -288,7 +288,9 @@ namespace XMLTests
                             return false;
                         }
                         break;
-
+                    default:
+                        throw new UnknownType("This type is unknown");
+                        break;
                 }
             }
             return true;
@@ -296,117 +298,32 @@ namespace XMLTests
 
         private bool CompareCollection(Book expected, Book actual)
         {
-            if (!expected.Name.Equals(actual.Name))
-            {
-                return false;
-            }
-            if (!expected.Authors.Equals(actual.Authors))
-            {
-                return false;
-            }
-            if (!expected.ISBN.Equals(actual.ISBN))
-            {
-                return false;
-            }
-            if (!expected.PublishCity.Equals(actual.PublishCity))
-            {
-                return false;
-            }
-            if (!expected.PublishingHouse.Equals(actual.PublishingHouse))
-            {
-                return false;
-            }
-            if (!expected.PageCount.Equals(actual.PageCount))
-            {
-                return false;
-            }
-            if (expected.PublishYear != actual.PublishYear)
-            {
-                return false;
-            }
-            if (!expected.Comment.Equals(actual.Comment))
-            {
-                return false;
-            }
-            return true;
+            if (expected.Name.Equals(actual.Name) && expected.Authors.Equals(actual.Authors)
+                && expected.ISBN.Equals(actual.ISBN) && expected.PublishCity.Equals(actual.PublishCity)
+                && expected.PublishingHouse.Equals(actual.PublishingHouse) &&
+                expected.PageCount.Equals(actual.PageCount) && (expected.PublishYear != actual.PublishYear) && !expected.Comment.Equals(actual.Comment))
+                return true;
+            return false;
         }
 
         private bool CompareCollection(Newspaper expected, Newspaper actual)
         {
-            if (!expected.Name.Equals(actual.Name))
-            {
-                return false;
-            }
-            if (expected.Date != actual.Date)
-            {
-                return false;
-            }
-            if (!expected.ISSN.Equals(actual.ISSN))
-            {
-                return false;
-            }
-            if (!expected.PublishCity.Equals(actual.PublishCity))
-            {
-                return false;
-            }
-            if (!expected.PublishingHouse.Equals(actual.PublishingHouse))
-            {
-                return false;
-            }
-            if (expected.PageCount != actual.PageCount)
-            {
-                return false;
-            }
-            if (expected.PublishYear != actual.PublishYear)
-            {
-                return false;
-            }
-            if (!expected.Comment.Equals(actual.Comment))
-            {
-                return false;
-            }
-            if (!expected.SerialNumber.Equals(actual.SerialNumber))
-            {
-                return false;
-            }
-            return true;
+            if (expected.Name.Equals(actual.Name) && (expected.Date != actual.Date) &&
+                !expected.ISSN.Equals(actual.ISSN) && expected.PublishCity.Equals(actual.PublishCity) &&
+                expected.PublishingHouse.Equals(actual.PublishingHouse) && (expected.PageCount != actual.PageCount)
+                && (expected.PublishYear != actual.PublishYear) && expected.Comment.Equals(actual.Comment) && expected.SerialNumber.Equals(actual.SerialNumber))
+                return true;
+            return false;
         }
 
         private bool CompareCollection(Patent expected, Patent actual)
         {
-            if (!expected.Name.Equals(actual.Name))
-            {
-                return false;
-            }
-            if (!expected.Country.Equals(actual.Country))
-            {
-                return false;
-            }
-            if (!expected.Creator.Equals(actual.Creator))
-            {
-                return false;
-            }
-            if (!expected.PageCount.Equals(actual.PageCount))
-            {
-                return false;
-            }
-            if (!expected.PublishDate.Equals(actual.PublishDate))
-            {
-                return false;
-            }
-            if (!expected.RequestDate.Equals(actual.RequestDate))
-            {
-                return false;
-            }
-            if (!expected.SerialNumber.Equals(actual.SerialNumber))
-            {
-                return false;
-            }
-            if (!expected.Comment.Equals(actual.Comment))
-            {
-                return false;
-            }
-            return true;
+            if (expected.Name.Equals(actual.Name) && expected.Country.Equals(actual.Country) &&
+            expected.Creator.Equals(actual.Creator) && expected.PageCount.Equals(actual.PageCount)
+            && expected.PublishDate.Equals(actual.PublishDate) && expected.RequestDate.Equals(actual.RequestDate)
+            && expected.SerialNumber.Equals(actual.SerialNumber) && expected.Comment.Equals(actual.Comment))
+                return true;
+            return false;
         }
     }
 }
