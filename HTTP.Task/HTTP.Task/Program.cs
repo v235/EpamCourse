@@ -8,7 +8,7 @@ namespace HTTP.Task
         static void Main(string[] args)
         {
             SiteDownloader sd = new SiteDownloader();
-            sd.Download(@"D:\5", "https://www.google.by");
+            sd.Download(@"D:\5", "https://www.epam.com/");
             //Run();
             //Console.WriteLine("Hit ENTER to exit...");
             //Console.ReadLine();
