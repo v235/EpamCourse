@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 using System.Linq;
@@ -15,74 +16,57 @@ namespace WebLib
             htmlSnippet = new HtmlDocument();
             htmlSnippet.LoadHtml(htmlContent);
         }
-        public IEnumerable<string> GetAllLinksFromHTML ()
+
+        public IEnumerable<string> GetAllLinksFromHTML()
         {
-            foreach (HtmlNode link in htmlSnippet.DocumentNode.SelectNodes("//a[@href]"))
-            {
-                HtmlAttribute att = link.Attributes["href"];
-                if (att.Value.StartsWith("https://") || att.Value.StartsWith("http://"))
-                {
-                    yield return att.Value;
-                }
-            }
+            return htmlSnippet.DocumentNode.SelectNodes("//a[@href]")
+                .SelectMany(a => a.Attributes
+                .Where(h => h.Name == "href" && (h.Value.StartsWith("http")
+                || h.Value.StartsWith("https")))).Distinct().Select(l => l.Value);
         }
-        public IEnumerable<string> GetAllImgFromHTML(string baseUrl)
+        public Dictionary<string, string> GetAllImgFromHTML(string baseURL)
         {
-            foreach (HtmlNode link in htmlSnippet.DocumentNode.SelectNodes("//img"))
-            {
-                HtmlAttribute att = link.Attributes["src"];
-                if (att.Value.StartsWith("https://")|| att.Value.StartsWith("http://"))
-                {
-                   yield return att.Value;
-                }
-                else
-                {
-                    yield return baseUrl+att.Value;
-                }
-            }
+            var res = htmlSnippet.DocumentNode.SelectNodes("//img")
+                  .Select(g => g.GetAttributeValue("src", "")).Distinct();
+            return LinkHelper(res, baseURL);
         }
-        public IEnumerable<string> GetAllCssFromHTML(string baseUrl)
+        public Dictionary<string, string> GetAllJSFromHTML(string baseURL)
         {
-            foreach (HtmlNode link in htmlSnippet.DocumentNode.SelectNodes("//link"))
+            var res = htmlSnippet.DocumentNode.SelectNodes("//script")
+                 .Where(a => a.GetAttributeValue("type", "") == "text/javascript")
+                 .Select(g => g.GetAttributeValue("src", "")).Distinct();
+            return LinkHelper(res, baseURL);
+        }
+        public Dictionary<string, string> GetAllCssFromHTML(string baseURL)
+        {
+            var res = htmlSnippet.DocumentNode.SelectNodes("//link")
+                .Where(a => a.GetAttributeValue("rel", "") == "stylesheet")
+                .Select(g => g.GetAttributeValue("href", "")).Distinct();
+            return LinkHelper(res, baseURL);
+        }
+        private Dictionary<string, string> LinkHelper(IEnumerable<string> sequence, string baseURL)
+        {
+            Dictionary<string, string> keyValueTable = new Dictionary<string, string>();
+            foreach (var el in sequence)
             {
-                HtmlAttribute att = link.Attributes["rel"];
-                if (att.Value == "stylesheet")
+                if (el.Length > 0)
                 {
-                    if (att != null)
+                    if (el.StartsWith("http") || el.StartsWith("https"))
                     {
-                        if (link.Attributes["href"].Value.StartsWith("https://"))
-                        {
-                            yield return link.Attributes["href"].Value;
-                        }
-                        else
-                        {
-                            yield return baseUrl + link.Attributes["href"].Value;
-                        }
-                    }
-                }
-            }
-        }
-        public IEnumerable<string> GetAllJSFromHTML(string baseUrl)
-        {
-            List<string> js = new List<string>();
-            foreach (HtmlNode link in htmlSnippet.DocumentNode.SelectNodes("//script"))
-            {
-                HtmlAttribute att = link.Attributes["src"];
-                if (att != null)
-                {
-                    if (att.Value.StartsWith("https://") || att.Value.StartsWith("http://"))
-                    {
-                        js.Add(att.Value);
-                        //yield return att.Value;
+                        keyValueTable.Add(el, el);
                     }
                     else
                     {
-                        js.Add(baseUrl + att.Value);
+                        keyValueTable.Add(el, GetBaseUrl(baseURL) + el);
                     }
-                    //yield return baseUrl + link.Attributes["src"].Value;
                 }
             }
-            return js;
+            return keyValueTable;
+        }
+        private string GetBaseUrl(string url)
+        {
+            var splitedURL = url.Split('.');
+            return splitedURL[0] + "." + splitedURL[1] + "." + (splitedURL[2].IndexOf('/') != -1 ? splitedURL[2].Substring(0, splitedURL[2].IndexOf('/')) : splitedURL[2]);
         }
     }
 }
