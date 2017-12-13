@@ -20,23 +20,26 @@ namespace WebLib
 
         public IEnumerable<string> GetAllLinksFromHTML(string baseUrl, Dictionary<string, bool> linkSearchRulesRef)
         {
-            foreach (var rule in linkSearchRulesRef)
+            if (linkSearchRulesRef != null)
             {
-                if (rule.Value)
+                foreach (var rule in linkSearchRulesRef)
                 {
-                    switch (rule.Key)
+                    if (rule.Value)
                     {
-                        case "AllSearch":
-                            return GetAllLinksFromHTML();
-                        case "DomainSearch":
-                            return GetAllLinksFromHTMLbyDomain(GetBaseUrl(baseUrl));
-                        case "ParentSearch":
-                            return GetAllLinksFromHTMLbyParent(baseUrl);
-                        default: throw new UrnownRule("Uknown Rule for links");
+                        switch (rule.Key)
+                        {
+                            case "AllSearch":
+                                return GetAllLinksFromHTML();
+                            case "DomainSearch":
+                                return GetAllLinksFromHTMLbyDomain(GetBaseUrl(baseUrl));
+                            case "ParentSearch":
+                                return GetAllLinksFromHTMLbyParent(baseUrl);
+                            default: throw new UrnownRule("Uknown Rule for links");
+                        }
                     }
                 }
             }
-            return Enumerable.Empty<string>();
+            return GetAllLinksFromHTML();
         }
         private IEnumerable<string> GetAllLinksFromHTML()
         {

@@ -12,13 +12,15 @@ namespace WebLib
     public class SiteDownloader
     {
         private int stopLevel = 0;
+        private bool verboseMode;
         private List<string> contentFilteringRef;
         private Dictionary<string, bool> linkSearchRulesRef;
 
 
-        public void Download(string downloadPath, string siteUrl, int downloadLevel = 2)
+        public void Download(string downloadPath, string siteUrl, int downloadLevel = 0, bool verboseMode=false)
         {
             stopLevel = downloadLevel;
+            this.verboseMode = verboseMode;
             int currentLevel = 0;
             DownloadSite(downloadPath, siteUrl, currentLevel);
         }
@@ -185,11 +187,17 @@ namespace WebLib
         }
         private void LinkReport(string url)
         {
-            Console.WriteLine("Try to GET content from:{0}", url);
+            if (verboseMode)
+            {
+                Console.WriteLine("Try to GET content from:{0}", url);
+            }
         }
         private void ContentReport(string status)
         {
-            Console.WriteLine("Result code: {0}", status);
+            if (verboseMode)
+            {
+                Console.WriteLine("Result code: {0}", status);
+            }
         }
         #endregion
     }
