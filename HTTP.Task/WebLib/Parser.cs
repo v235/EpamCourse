@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 using System.Linq;
+using WebLib.CustomExceptions;
 
 namespace WebLib
 {
@@ -17,18 +18,72 @@ namespace WebLib
             htmlSnippet.LoadHtml(htmlContent);
         }
 
-        public IEnumerable<string> GetAllLinksFromHTML()
+        public IEnumerable<string> GetAllLinksFromHTML(string baseUrl, Dictionary<string, bool> linkSearchRulesRef)
+        {
+            foreach (var rule in linkSearchRulesRef)
+            {
+                if (rule.Value)
+                {
+                    switch (rule.Key)
+                    {
+                        case "AllSearch":
+                            return GetAllLinksFromHTML();
+                        case "DomainSearch":
+                            return GetAllLinksFromHTMLbyDomain(GetBaseUrl(baseUrl));
+                        case "ParentSearch":
+                            return GetAllLinksFromHTMLbyParent(baseUrl);
+                        default: throw new UrnownRule("Uknown Rule for links");
+                    }
+                }
+            }
+            return Enumerable.Empty<string>();
+        }
+        private IEnumerable<string> GetAllLinksFromHTML()
+        {
+            return GetAllLinks().Distinct();
+        }
+        private IEnumerable<string> GetAllLinksFromHTMLbyDomain(string baseUrl)
+        {
+            return GetAllLinks().Where(l => l.Contains(baseUrl)).Distinct();
+        }
+        private IEnumerable<string> GetAllLinksFromHTMLbyParent(string ParentUrl)
+        {
+            return GetAllLinks().Where(l => l.Contains(ParentUrl)).Distinct();
+        }
+        public IEnumerable<string> GetAllLinks()
         {
             return htmlSnippet.DocumentNode.SelectNodes("//a[@href]")
                 .SelectMany(a => a.Attributes
                 .Where(h => h.Name == "href" && (h.Value.StartsWith("http")
-                || h.Value.StartsWith("https")))).Distinct().Select(l => l.Value);
+                || h.Value.StartsWith("https")))).Select(l => l.Value);
         }
-        public Dictionary<string, string> GetAllImgFromHTML(string baseURL)
+        public IEnumerable<string> GetAllImgFromHTML(string baseURL)
         {
-            var res = htmlSnippet.DocumentNode.SelectNodes("//img")
+            return htmlSnippet.DocumentNode.SelectNodes("//img")
                   .Select(g => g.GetAttributeValue("src", "")).Distinct();
+            
+        }
+        public Dictionary<string, string> GetAllImgFromHTMLWithoutFilter(string baseURL)
+        {
+            var res = GetAllImgFromHTML(baseURL);
             return LinkHelper(res, baseURL);
+        }
+            public Dictionary<string, string> GetAllImgFromHTMLWithFilter(string baseURL, List<string> contentFiltering)
+        {
+            var res = GetAllImgFromHTML(baseURL);
+            List<string> tempList = new List<string>();
+            foreach (var f in contentFiltering)
+            {
+                foreach (var r in res)
+                {
+                    if (string.Equals(GetImgExtension(r), f, StringComparison.OrdinalIgnoreCase))
+                    {
+                        tempList.Add(r);
+                    }
+                }
+            }
+            var filteredList=res.Except(tempList);
+            return LinkHelper(filteredList, baseURL);
         }
         public Dictionary<string, string> GetAllJSFromHTML(string baseURL)
         {
@@ -67,6 +122,25 @@ namespace WebLib
         {
             var splitedURL = url.Split('.');
             return splitedURL[0] + "." + splitedURL[1] + "." + (splitedURL[2].IndexOf('/') != -1 ? splitedURL[2].Substring(0, splitedURL[2].IndexOf('/')) : splitedURL[2]);
+        }
+        private string GetImgExtension(string name)
+        {
+            if (name.LastIndexOf("?") != -1)
+            {
+                var res = name.Substring(name.LastIndexOf('/'), name.LastIndexOf("?") - name.LastIndexOf("/") - 1);
+                string fileName = name.Substring(name.LastIndexOf('/') + 1, name.LastIndexOf("?") - name.LastIndexOf("/") - 1);
+                if (fileName.LastIndexOf('.') != -1)
+                    return fileName.Substring(fileName.LastIndexOf('.')+1);
+                return fileName;
+            }
+            else
+            {
+                var r1 = name.Substring(name.LastIndexOf('/') + 1);
+                string fileName = name.Substring(name.LastIndexOf('/') + 1);
+                if (fileName.LastIndexOf('.') != -1)
+                    return fileName.Substring(fileName.LastIndexOf('.')+1);
+                return fileName;
+            }
         }
     }
 }
