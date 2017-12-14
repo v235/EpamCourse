@@ -1,0 +1,1 @@
+LogParser.exe "select * from D:\LoggingAndMonitoring.Task\MvcMusicStore\logs\*.log" -o datagrid
