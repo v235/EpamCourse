@@ -8,3 +8,4 @@ WHERE c.Country NOT IN ('USA', 'Canada') ORDER BY c.CustomerID
 
 SELECT DISTINCT c.Country 
 FROM Customers as c 
+ORDER BY c.Country DESC;

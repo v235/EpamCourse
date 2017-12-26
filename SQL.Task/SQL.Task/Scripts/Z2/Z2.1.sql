@@ -8,7 +8,7 @@ SELECT DISTINCT o.CustomerID, COUNT (*) OVER (PARTITION BY o.CustomerID)  as [To
 FROM Orders as o 
 
 --For test
---SELECT COUNT(o.CustomerID) as [Total customers]
+--SELECT o.CustomerID, COUNT(o.CustomerID) as [Total customers]
 --FROM Orders as o 
 --GROUP BY o.CustomerID  
 --ORDER BY o.CustomerID  
