@@ -18,7 +18,7 @@ FROM Orders as o
 WHERE YEAR (o.OrderDate)=1998
 GROUP BY o.EmployeeID, o.CustomerID 
 
-SELECT * 
+SELECT DISTINCT* 
 FROM
 (SELECT 'Employee' as Type, (e.LastName +' '+ e.FirstName) as [Name], e.City as City FROM Employees as e 
 WHERE e.City IN (SELECT c.City FROM Customers as c)

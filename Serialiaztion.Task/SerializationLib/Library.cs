@@ -12,7 +12,7 @@ namespace SerializationLib
             Books = new List<Book>();
         }
 
-        [XmlAttribute("date")]
+        [XmlAttribute("date", DataType = "date")]
         public DateTime Date { get; set; }
 
         [XmlElement("book")]

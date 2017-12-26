@@ -7,6 +7,10 @@ FROM Orders as o
 SELECT DISTINCT o.CustomerID, COUNT (*) OVER (PARTITION BY o.CustomerID)  as [Total customers]
 FROM Orders as o 
 
+SELECT COUNT (DISTINCT o.CustomerID) as [Total customers]
+FROM Orders as o 
+
+
 --For test
 --SELECT o.CustomerID, COUNT(o.CustomerID) as [Total customers]
 --FROM Orders as o 

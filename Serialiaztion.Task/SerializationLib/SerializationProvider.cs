@@ -16,18 +16,35 @@ namespace SerializationLib
         {
             xmlSerializer = new XmlSerializer(typeof(Library));
         }
-        public void DoSerialization(Library objToSerialize)
+        public void DoSerialization(Library objToSerialize, string filePath)
         {
-            
+            try
+            {
+                using (StreamWriter fs = new StreamWriter(new FileStream("newbooks.xml", FileMode.OpenOrCreate), Encoding.UTF8))
+                {
+                    xmlSerializer.Serialize(fs, objToSerialize);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public Library DoDeSerialization()
+        public Library DoDeSerialization(string filePath)
         {
-            using (StreamReader reader = new StreamReader("books.xml"))
-            {   
-                return (Library)xmlSerializer.Deserialize(reader);               
+            try
+            {
+                using (StreamReader fs = new StreamReader(new FileStream("newbooks.xml", FileMode.Open), Encoding.UTF8))
+                {
+                    return (Library)xmlSerializer.Deserialize(fs);
+                }
             }
-            
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }
