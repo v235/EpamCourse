@@ -8,7 +8,6 @@ using System.Text;
 
 namespace WebLib
 {
-
     public class SiteDownloader
     {
         private int stopLevel = 0;
@@ -16,6 +15,11 @@ namespace WebLib
         private List<string> contentFilteringRef;
         private Dictionary<string, bool> linkSearchRulesRef;
 
+        //for htmlHeader
+        const string acceptHeader = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
+        const string accept_Encoding = "deflate";
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
+        const string acceptLanguage = "en-BY,en-US;q=0.9,en;q=0.8";
 
         public void Download(string downloadPath, string siteUrl, int downloadLevel = 0, bool verboseMode=false)
         {
@@ -53,16 +57,16 @@ namespace WebLib
                     //img
                     if ((contentFilteringRef != null)&&(contentFilteringRef.Any()))
                     {
-                        DownloadContentToDisk(Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl))), parser.GetAllImgFromHTMLWithFilter(siteUrl, contentFilteringRef), ref pathHolder);
+                        DownloadContentToDisk(CreateCustomePath(downloadPath, siteUrl), parser.GetAllImgFromHTMLWithFilter(siteUrl, contentFilteringRef), ref pathHolder);
                     }
                     else
                     {
-                        DownloadContentToDisk(Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl))), parser.GetAllImgFromHTMLWithoutFilter(siteUrl), ref pathHolder);
+                        DownloadContentToDisk(CreateCustomePath(downloadPath, siteUrl), parser.GetAllImgFromHTMLWithoutFilter(siteUrl), ref pathHolder);
                     }
                     //css
-                    DownloadContentToDisk(Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl))), parser.GetAllCssFromHTML(siteUrl), ref pathHolder);
+                    DownloadContentToDisk(CreateCustomePath(downloadPath, siteUrl), parser.GetAllCssFromHTML(siteUrl), ref pathHolder);
                     //js
-                    DownloadContentToDisk(Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl))), parser.GetAllJSFromHTML(siteUrl), ref pathHolder);
+                    DownloadContentToDisk(CreateCustomePath(downloadPath, siteUrl), parser.GetAllJSFromHTML(siteUrl), ref pathHolder);
                     //Links
                     DownloadContentByLinks(GetSavePath(downloadPath, siteUrl), siteUrl, currentLevel, parser);
                     //write HTML
@@ -71,7 +75,7 @@ namespace WebLib
                         content = content.Replace(e.Key, e.Value);
                     }
                     byte[] byteArray = Encoding.UTF8.GetBytes(content);
-                    WriteFromStream(Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl + "\\index.html"))), new MemoryStream(byteArray));
+                    WriteFromStream(CreateCustomePath(downloadPath, siteUrl+ "\\index.html"), new MemoryStream(byteArray));
                 }
             }
             catch (Exception ex)
@@ -114,6 +118,12 @@ namespace WebLib
         }
         #endregion
         #region help methods
+
+        private string CreateCustomePath(string downloadPath, string siteUrl)
+        {
+            return Path.Combine(Path.Combine(GetSavePath(downloadPath, siteUrl)));
+        }
+
         private string GetSavePath(string downloadPath, string url)
         {
             if (Path.Combine(downloadPath, url.Replace(':', '_').Replace('/', '_').Replace('?', '_')).Length < 248)
@@ -138,12 +148,11 @@ namespace WebLib
         {
             LinkReport(url);
             HttpClient client = new HttpClient();
-            
             client.BaseAddress = new Uri(url);
-            client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "deflate");
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36");
-            client.DefaultRequestHeaders.Add("Accept-Language", "en-BY,en-US;q=0.9,en;q=0.8");
+            client.DefaultRequestHeaders.Add("Accept", acceptHeader);
+            client.DefaultRequestHeaders.Add("Accept-Encoding", accept_Encoding );
+            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+            client.DefaultRequestHeaders.Add("Accept-Language", acceptLanguage);
             var response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
