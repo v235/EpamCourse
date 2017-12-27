@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WebLib
 {
@@ -42,11 +43,11 @@ namespace WebLib
         }
 
         #region page download
-        private void DownloadSite(string downloadPath, string siteUrl, int currentLevel)
+        private async void DownloadSite(string downloadPath, string siteUrl, int currentLevel)
         {
             try
             { 
-                var content = GetContent(siteUrl).ReadAsStringAsync().Result;
+                var content = await GetContent(siteUrl).ReadAsStringAsync();
                 if (content != null)
                 {
                     Dictionary<string, string> pathHolder = new Dictionary<string, string>();
@@ -103,13 +104,13 @@ namespace WebLib
             }
             currentLevel = currentLevel - 1;
         }
-        private void DownloadDopFiles(string url, string downloadPath)
+        private async void DownloadDopFiles(string url, string downloadPath)
         {
             try
             {
                 var content = GetContent(url);
                 if (content != null)
-                    WriteFromStream(downloadPath, GetContent(url).ReadAsStreamAsync().Result);
+                    WriteFromStream(downloadPath, await GetContent(url).ReadAsStreamAsync());
             }
             catch (Exception ex)
             {
