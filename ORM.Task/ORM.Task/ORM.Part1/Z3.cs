@@ -95,34 +95,37 @@ namespace ORM.Part1
             Console.WriteLine("Z3.4");
             using (var db = new DbNorthwind())
             {
+                List<OrderDetails> newOD = new List<OrderDetails>();
                 var query = db.OrderDetails.LoadWith(t => t.Products.Categories).LoadWith(t => t.Orders)
-                    .Where(o => o.Orders.ShippedDate == null).GroupBy(g => g.OrderID);
-                foreach (var g in query)
+                    .Where(o => o.Orders.ShippedDate == null).ToArray();
+                var groupQuery = query.GroupBy(g => g.OrderID);
+                Console.WriteLine();
+                foreach (var g in groupQuery)
                 {
+                    var idFilter = g.Select(i => i.ProductID).ToList();
                     Console.WriteLine("OrderID is:{0}", g.Key);
                     foreach (var p in g)
                     {
                         Console.WriteLine("|Product:{0}|Category:{1}|", p.Products.ProductName,
                             p.Products.Categories.CategoryName);
-                        using (var db1 = new DbNorthwind())
+                        var newProductID = db.Products.LoadWith(t => t.Categories).Where(c =>
+                            c.ProductID != p.ProductID && c.CategoryID == p.Products.CategoryID).Select(c => c.ProductID).ToArray().Except(idFilter).FirstOrDefault();
+                        idFilter.Add(newProductID);
+                        newOD.Add(new OrderDetails()
                         {
-                            db1.OrderDetails.Delete(t => t.OrderID == p.OrderID && t.ProductID == p.ProductID);
-                            var newProductID = db1.Products.LoadWith(t => t.Categories).Where(c =>
-                                c.ProductID != p.ProductID && c.CategoryID == p.Products.CategoryID).Select(c => c.ProductID).ToArray().Except(g.Select(i => i.ProductID).ToArray()).First();
-                            p.ProductID = newProductID;
-                            db1.OrderDetails.Insert(() => new OrderDetails
-                            {
-                                OrderID = p.OrderID,
-                                ProductID = p.ProductID,
-                                Quantity = p.Quantity,
-                                UnitPrice = p.UnitPrice,
-                                Discount = p.Discount
-                            }
-                            );
-                            Console.WriteLine("|Changed to Product:{0}|Category:{1}|", p.Products.ProductName,
-                                p.Products.Categories.CategoryName);
-                        }
+                            OrderID = p.OrderID,
+                            ProductID = newProductID,
+                            Quantity = p.Quantity,
+                            UnitPrice = p.UnitPrice,
+                            Discount = p.Discount
+                        });
                     }
+                }
+                var newODArr = newOD.ToArray();
+                for (int i = 0; i < query.Length; i++)
+                {
+                    if(newODArr[i].ProductID!=0)
+                    db.OrderDetails.Where(od => od.OrderID == query[i].OrderID && od.ProductID == query[i].ProductID).Set(od => od.ProductID, newODArr[i].ProductID).Update();
                 }
                 Console.WriteLine("Success");
             }

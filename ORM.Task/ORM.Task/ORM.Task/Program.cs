@@ -15,10 +15,10 @@ namespace ORM.Task
         static void Main(string[] args)
         {
             //For ORMPart1 uncommit in App.config connectionstring for Part1
-            Z2 z2 = new Z2();
-            z2.RunZ2();
-            //Z3 z3 = new Z3();
-            //z3.RunZ3();
+            //Z2 z2 = new Z2();
+            //z2.RunZ2();
+            Z3 z3 = new Z3();
+            z3.RunZ3();
 
             //For ORMPart2 uncommit in App.config connectionstring for Part2
             //Part2Zadanie p2z1 = new Part2Zadanie();
