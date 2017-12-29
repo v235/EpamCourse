@@ -50,7 +50,6 @@
     <Compile Include="SerializationHelpers\OrderDetailSerializationSurrogate.cs" />
     <Compile Include="SerializationHelpers\OrderDetailSurrogateSelector.cs" />
     <Compile Include="SerializationHelpers\OrderSerializationSurrogate.cs" />
-    <Compile Include="SerializationHelpers\OrderSurrogate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NorthwindLibrary\NorthwindLibrary.csproj">

@@ -24,7 +24,7 @@ namespace CustomSerializationLib
             var categories = dbContext.Categories.ToList();
             var tester = new XmlDataContractSerializerTester<IEnumerable<Category>>(new NetDataContractSerializer(new StreamingContext(StreamingContextStates.All, dbContext.Products.ToList())), true);
 
-            var r = tester.SerializeAndDeserialize(categories);
+            tester.SerializeAndDeserialize(categories);
         }
 
         public void ISerializable()
@@ -70,7 +70,7 @@ namespace CustomSerializationLib
             var tester = new XmlDataContractSerializerTester<IEnumerable<Order>>(new DataContractSerializer(typeof(IEnumerable<Order>), new DataContractSerializerSettings { DataContractSurrogate = new OrderSerializationSurrogate() }), true);
             var orders = dbContext.Orders.ToList();
 
-            var r = tester.SerializeAndDeserialize(orders);
+            tester.SerializeAndDeserialize(orders);
         }
     }
 }

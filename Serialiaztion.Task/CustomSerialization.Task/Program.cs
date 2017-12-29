@@ -10,10 +10,11 @@ namespace CustomSerialization.Task
         {
             CustomSerializationProvider cp = new CustomSerializationProvider();
 
+            //for test
             //cp.ISerializable();
             //cp.ISerializationSurrogate();
-            // cp.SerializationCallbacks();
-            cp.IDataContractSurrogate(); 
+            //cp.SerializationCallbacks();
+            //cp.IDataContractSurrogate(); 
 
             Console.ReadKey();
         }

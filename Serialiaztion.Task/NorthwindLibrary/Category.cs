@@ -41,29 +41,29 @@ namespace NorthwindLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 
-        //[OnSerializing]
-        //private void OnSerializing(StreamingContext context)
-        //{
-        //    Console.WriteLine("OnSerializing");
-        //}
+        [OnSerializing]
+        private void OnSerializing(StreamingContext context)
+        {
+            Console.WriteLine("OnSerializing");
+        }
 
-        //[OnSerialized]
-        //private void OnSerialized(StreamingContext context)
-        //{
-        //    Console.WriteLine("OnSerialized");
-        //}
+        [OnSerialized]
+        private void OnSerialized(StreamingContext context)
+        {
+            Console.WriteLine("OnSerialized");
+        }
 
-        //[OnDeserializing]
-        //private void OnDeserializing(StreamingContext context)
-        //{
-        //    Console.WriteLine("OnDeserializing");
-        //}
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            Console.WriteLine("OnDeserializing");
+        }
 
-        //[OnDeserialized]
-        //private void OnDeserialized(StreamingContext context)
-        //{
-        //    Console.WriteLine("OnDeserialized");
-        //}
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            Console.WriteLine("OnDeserialized");
+        }
 
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
